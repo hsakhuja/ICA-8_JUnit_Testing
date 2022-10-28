@@ -1,6 +1,5 @@
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +44,6 @@ public class urinalsTest {
         List<String> result = urinals.read(testFileName);
         Assert.assertEquals(null, result);
     }
-    
+
     
 }
