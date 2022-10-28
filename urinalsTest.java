@@ -25,4 +25,17 @@ public class urinalsTest {
         }
         Assert.assertEquals(answer, result);
     }
+
+    @Test
+    void testGetFreeUrinals() {
+        List<String> testdata = List.of("10001","1001","00000","0000","01000","011");
+        List<Integer> answer = List.of(1,0,3,2,1,-1);
+        List<Integer> result = new ArrayList<>();
+        for(int i=0; i<testdata.size();i++) {
+            result.add(urinal.getFreeUrinals(testdata.get(i).trim().split("")));
+        }
+        Assert.assertEquals(answer, result);
+
+    }
+
 }
