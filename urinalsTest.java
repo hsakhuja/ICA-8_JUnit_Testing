@@ -12,7 +12,7 @@ public class urinalsTest {
     @Test
     void testGoodString() {
         // fail("Test Failed");
-        assertEquals(uri.goodString(""), true);
+        Assert.assertEquals(uri.goodString(""), true);
     }
 
     @Test
@@ -40,15 +40,9 @@ public class urinalsTest {
     @Test
     void testRead() throws IOException{
         String testFileName = new String();
-        testFileName = "somefile.txt";
-        List<String> result = urinals.read(testFileName);
-        Assert.assertEquals(null, result);
+        List<String> answer = List.of("10001","1001","00000","0000","01000","011");
+        testFileName = "urinal.dat";
+        List<String> result = uri.read(testFileName);
+        Assert.assertEquals(answer, result);
     }
-
-    // @Test
-    // void testWrite() throws IOException {
-    //     List<String> testdata = List.of("10001","1001","00000","0000","01000","011");
-    //     @SuppressWarnings("static")
-    //     uri.write(testdata, "abc.txt");
-    // }
 }

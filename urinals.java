@@ -16,25 +16,26 @@ class urinals {
     private static final String READ_FILE = "urinal.dat"; 
     private static final String WRITE_FILE = "rule";
     public static void main(String args[]) throws IOException {
+        urinals urinal = new urinals();
         System.out.println("hello");
         System.out.println("Select input source:\n1.Keyboard\n2.File\n");
         @SuppressWarnings("resource")
         Scanner scan = new Scanner(System.in);
         int choice = scan.nextInt();
         if (choice == 1) {
-            handleKeyboardInput();
+            urinal.handleKeyboardInput();
         } else {
-            List<String> data = handleFileInput();
+            List<String> data = urinal.handleFileInput();
             List<String> res = new ArrayList<>();
             for (int i=0; i < data.size(); i++ ) {
-                int num = getFreeUrinals(data.get(i).split(""));
+                int num = urinal.getFreeUrinals(data.get(i).split(""));
                 res.add(String.valueOf(num));
                 if(num == -1) {
                     break;
                 }
            }
            try {
-            write(res, WRITE_FILE);
+            urinal.write(res);
             } catch (IOException e) {
                 System.out.println("Error writing to file");
                 e.printStackTrace();
@@ -42,7 +43,7 @@ class urinals {
         }
     }
 
-    public static List<String> handleFileInput() {
+    public List<String> handleFileInput() {
         List<String> data = new ArrayList<>();
         try {
             data = read(READ_FILE);
@@ -53,7 +54,7 @@ class urinals {
         return data;
     }
 
-    public static void handleKeyboardInput() {
+    public void handleKeyboardInput() {
         System.out.println(
                 "Enter binary string representing urinal status\n(0 for unoccupied urinal and 1 for occupied urinals, space separated)");
         @SuppressWarnings("resource")
@@ -64,7 +65,7 @@ class urinals {
         System.out.println(freeUrinals);
     }
 
-    public static int getFreeUrinals(String[] arr) {
+    public int getFreeUrinals(String[] arr) {
         if (!valid(arr)) {
             return -1;
         }
@@ -92,7 +93,7 @@ class urinals {
             return count;
         }
 
-    public static boolean valid(String[] seq) {
+    public boolean valid(String[] seq) {
         for (int i = 0; i < seq.length - 1; i++) {
             if (seq[i].equals("1") && seq[i + 1].equals("1")) {
                 return false;
@@ -106,7 +107,7 @@ class urinals {
         return true;
     }
 
-    public static List<String> read(String filename) throws IOException {
+    public List<String> read(String filename) throws IOException {
         String filePath = filename;
         Path p = Paths.get(filePath);
         // Path path = Path.of(String.format("data%s%s", DBDriver.OSFileDelimiter,
@@ -117,15 +118,9 @@ class urinals {
         return null;
     }
 
-    public static void write(List<String> data, String filename) throws IOException {
-        String filePath = filename + ".txt";
+    public void write(List<String> data) throws IOException {
+        String filePath = generateFileName();
         Path p = Paths.get(filePath);
-        int suffix = 1;
-        while(Files.exists(p)) {
-            filePath = filename + String.valueOf(suffix) + ".txt";
-            p = Paths.get(filePath);
-            suffix++;
-        }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < data.size(); i++) {
             builder.append(data.get(i));
@@ -135,5 +130,17 @@ class urinals {
         String string = builder.toString();
 
         Files.writeString(p, string,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    public String generateFileName() {
+        String filename = WRITE_FILE;
+        int suffix = 0;
+        Path p = Paths.get(filename+".txt");
+        while(Files.exists(p)) {
+            suffix++;
+            filename = WRITE_FILE + String.valueOf(suffix) + ".txt";
+            p = Paths.get(filename);
+        }
+        return p.toString();
     }
 }
