@@ -95,6 +95,9 @@ class urinals {
 
     public boolean valid(String[] seq) {
         for (int i = 0; i < seq.length - 1; i++) {
+            if (!seq[i].equals("0") && !seq[i].equals("1")) {
+                return false;
+            }
             if (seq[i].equals("1") && seq[i + 1].equals("1")) {
                 return false;
             }
@@ -103,7 +106,6 @@ class urinals {
     }
 
     public Boolean goodString(String str) { // checks to see if valid string
-        System.out.println("====== Hardik Sakhuja == TEST TWO EXECUTED =======");
         return true;
     }
 
