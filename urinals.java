@@ -35,7 +35,7 @@ class urinals {
                 }
            }
            try {
-            urinal.write(res);
+            urinal.write(res,WRITE_FILE);
             } catch (IOException e) {
                 System.out.println("Error writing to file");
                 e.printStackTrace();
@@ -112,14 +112,16 @@ class urinals {
         Path p = Paths.get(filePath);
         // Path path = Path.of(String.format("data%s%s", DBDriver.OSFileDelimiter,
         // filename));
-        if (Files.exists(p)) {
-            return Files.readAllLines(p);
+        List<String> data = new ArrayList<>();
+        try {
+            data = Files.readAllLines(p);
+        } catch (IOException e) {
+            throw e;
         }
-        return null;
+        return data;
     }
 
-    public void write(List<String> data) throws IOException {
-        String filePath = generateFileName();
+    public void write(List<String> data, String filePath) throws IOException {
         Path p = Paths.get(filePath);
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < data.size(); i++) {
@@ -129,7 +131,11 @@ class urinals {
 
         String string = builder.toString();
 
-        Files.writeString(p, string,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        try {
+            Files.writeString(p, string,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     public String generateFileName() {

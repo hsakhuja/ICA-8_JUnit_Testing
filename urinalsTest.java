@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class urinalsTest {
     }
 
     @Test
-    void testRead() throws IOException{
+    void testReadSuccess() throws IOException{
         String testFileName = new String();
         List<String> answer = List.of("10001","1001","00000","0000","01000","011");
         testFileName = "urinal.dat";
@@ -47,13 +48,33 @@ public class urinalsTest {
     }
 
     @Test
+    void testReadDoNotExist() {
+        String filename = "someFilename.txt";
+        assertThrows(IOException.class, () -> uri.read(filename));
+    }
+
+    @Test
+    void testReadEmptyFile() throws IOException {
+        String testFilename = uri.generateFileName();
+        List<String> emptydata = new ArrayList<>();
+        uri.write(emptydata,testFilename);
+        List<String> readData = uri.read(testFilename);
+        Assert.assertEquals(readData,emptydata);
+    }
+    @Test
     void testWrite() throws IOException{
         String testFilename = new String();
         List<String> testdata = List.of("10001","1001","00000","0000","01000","011");
         testFilename = uri.generateFileName();
-        uri.write(testdata);
+        uri.write(testdata,testFilename);
         List<String> readData = uri.read(testFilename);
         Assert.assertEquals(readData,testdata);
+    }
+
+    @Test
+    void testWriteIOExcepton() {
+        final String filename = "/someDir/abc.txt";
+        assertThrows(IOException.class, () -> uri.write(new ArrayList<>(),filename));
     }
 
 }
