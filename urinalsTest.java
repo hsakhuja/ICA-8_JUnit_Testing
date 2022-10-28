@@ -45,4 +45,15 @@ public class urinalsTest {
         List<String> result = uri.read(testFileName);
         Assert.assertEquals(answer, result);
     }
+
+    @Test
+    void testWrite() throws IOException{
+        String testFilename = new String();
+        List<String> testdata = List.of("10001","1001","00000","0000","01000","011");
+        testFilename = uri.generateFileName();
+        uri.write(testdata);
+        List<String> readData = uri.read(testFilename);
+        Assert.assertEquals(readData,testdata);
+    }
+
 }
