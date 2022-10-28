@@ -8,11 +8,11 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class urinalsTest {
-    urinals urinal = new urinals();
+    private urinals uri = new urinals();
     @Test
     void testGoodString() {
         // fail("Test Failed");
-        assertEquals(urinal.goodString(""), true);
+        assertEquals(uri.goodString(""), true);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class urinalsTest {
         List<Boolean> answer = List.of(false,true); 
         List<Boolean> result = new ArrayList<>();
         for(int i=0; i<testdata.size();i++) {
-            result.add(urinal.valid(testdata.get(i).trim().split("")));
+            result.add(uri.valid(testdata.get(i).trim().split("")));
         }
         Assert.assertEquals(answer, result);
     }
@@ -32,7 +32,7 @@ public class urinalsTest {
         List<Integer> answer = List.of(1,0,3,2,1,-1);
         List<Integer> result = new ArrayList<>();
         for(int i=0; i<testdata.size();i++) {
-            result.add(urinal.getFreeUrinals(testdata.get(i).trim().split("")));
+            result.add(uri.getFreeUrinals(testdata.get(i).trim().split("")));
         }
         Assert.assertEquals(answer, result);
     }
@@ -45,5 +45,10 @@ public class urinalsTest {
         Assert.assertEquals(null, result);
     }
 
-    
+    // @Test
+    // void testWrite() throws IOException {
+    //     List<String> testdata = List.of("10001","1001","00000","0000","01000","011");
+    //     @SuppressWarnings("static")
+    //     uri.write(testdata, "abc.txt");
+    // }
 }
