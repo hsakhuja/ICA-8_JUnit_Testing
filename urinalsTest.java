@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,15 @@ public class urinalsTest {
             result.add(urinal.getFreeUrinals(testdata.get(i).trim().split("")));
         }
         Assert.assertEquals(answer, result);
-
     }
 
+    @Test
+    void testRead() throws IOException{
+        String testFileName = new String();
+        testFileName = "somefile.txt";
+        List<String> result = urinals.read(testFileName);
+        Assert.assertEquals(null, result);
+    }
+    
+    
 }

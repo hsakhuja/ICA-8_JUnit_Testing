@@ -1,11 +1,19 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 /**
  * @author = Hardik Sakhuja (hsakhuja)
  * 
  */
 class urinals {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         System.out.println("hello");
+        List<String> data = read("testfile.txt");
+        System.out.println(data.toString());
     }
 
     public int getFreeUrinals(String[] arr) {
@@ -48,5 +56,36 @@ class urinals {
     public Boolean goodString(String str) { // checks to see if valid string
         System.out.println("====== Hardik Sakhuja == TEST TWO EXECUTED =======");
         return true;
+    }
+
+    public static List<String> read(String filename) throws IOException {
+        String filePath = filename;
+        Path p = Paths.get(filePath);
+        // Path path = Path.of(String.format("data%s%s", DBDriver.OSFileDelimiter,
+        // filename));
+        if (Files.exists(p)) {
+            return Files.readAllLines(p);
+        }
+        return null;
+    }
+
+    public static void write(List<String> data, String filename) throws IOException {
+        String filePath = filename + ".txt";
+        Path p = Paths.get(filePath);
+        int suffix = 1;
+        while(Files.exists(p)) {
+            filePath = filename + String.valueOf(suffix) + ".txt";
+            p = Paths.get(filePath);
+            suffix++;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < data.size(); i++) {
+            builder.append(data.get(i));
+            builder.append('\n');
+        }
+
+        String string = builder.toString();
+
+        Files.writeString(p, string,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 }
